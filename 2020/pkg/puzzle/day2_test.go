@@ -11,7 +11,7 @@ var (
 	}
 )
 
-func TestAnswerPartOne(t *testing.T) {
+func TestDay2AnswerPart1(t *testing.T) {
 	want := 2
 	got, _ := day2.AnswerPartOne(&testDataDay2)
 
@@ -20,7 +20,7 @@ func TestAnswerPartOne(t *testing.T) {
 	}
 }
 
-func TestAnswerPartTwo(t *testing.T) {
+func TestDay2AnswerPart2(t *testing.T) {
 	want := 1
 	got, _ := day2.AnswerPartTwo(&testDataDay2)
 

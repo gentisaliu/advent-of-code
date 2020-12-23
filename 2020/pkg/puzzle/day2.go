@@ -14,28 +14,30 @@ const (
 	errInputMissingPassword = `input %v is missing the password to apply the policy to`
 )
 
-// Day2 implements the day 1 puzzle
+// Day2 implements the day 2 puzzle
 type Day2 struct{}
 
 // AnswerPartOne answers part 1 of the day 2 puzzle
 func (d *Day2) AnswerPartOne(input *[]string) (int, error) {
-	return countValidPasswords(input, func(parsed inputParsed) passwordPolicy {
-		return &sledRentalPasswordPolicy{
-			letter:   parsed.letter,
-			minOccur: parsed.number1,
-			maxOccur: parsed.number2,
-		}
-	})
+	return countValidPasswords(input, createSledRentalPasswordPolicy)
 }
 
-func countValidPasswords(input *[]string, createPolicy func(parsed inputParsed) passwordPolicy) (int, error) {
+func createSledRentalPasswordPolicy(parsed inputParsed) passwordPolicy {
+	return &sledRentalPasswordPolicy{
+		letter:   parsed.letter,
+		minOccur: parsed.number1,
+		maxOccur: parsed.number2,
+	}
+}
+
+func countValidPasswords(input *[]string, createPolicyFunc func(parsed inputParsed) passwordPolicy) (int, error) {
 	validPasswords := 0
 	for _, v := range *input {
 		inputParsed, err := parseInput(v)
 		if err != nil {
 			return validPasswords, err
 		}
-		policy := createPolicy(inputParsed)
+		policy := createPolicyFunc(inputParsed)
 		if policy.isPasswordValid(inputParsed.password) {
 			validPasswords++
 		}
@@ -45,13 +47,15 @@ func countValidPasswords(input *[]string, createPolicy func(parsed inputParsed) 
 
 // AnswerPartTwo answers part 2 of the day 2 puzzle
 func (d *Day2) AnswerPartTwo(input *[]string) (int, error) {
-	return countValidPasswords(input, func(parsed inputParsed) passwordPolicy {
-		return &tobogganCorporatePasswordPolicy{
-			letter:    parsed.letter,
-			position1: parsed.number1 - 1,
-			position2: parsed.number2 - 1,
-		}
-	})
+	return countValidPasswords(input, createTobogganCorporatePasswordPolicy)
+}
+
+func createTobogganCorporatePasswordPolicy(parsed inputParsed) passwordPolicy {
+	return &tobogganCorporatePasswordPolicy{
+		letter:    parsed.letter,
+		position1: parsed.number1 - 1,
+		position2: parsed.number2 - 1,
+	}
 }
 
 func parseInput(inputTxt string) (inputParsed, error) {
