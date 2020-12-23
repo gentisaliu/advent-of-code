@@ -10,6 +10,7 @@ import (
 
 var puzzles = map[int]puzzle.Puzzle{
 	1: &puzzle.Day1{},
+	2: &puzzle.Day2{},
 }
 
 // AnswerCmd
