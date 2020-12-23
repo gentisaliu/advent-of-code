@@ -17,10 +17,10 @@ var (
 
 func TestDay2AnswerPart1(t *testing.T) {
 	expected, _ := day2.AnswerPartOne(&testDataDay2)
-	assert.Equal(t, expected, 2)
+	assert.Equal(t, 2, expected)
 }
 
 func TestDay2AnswerPart2(t *testing.T) {
 	expected, _ := day2.AnswerPartTwo(&testDataDay2)
-	assert.Equal(t, expected, 1)
+	assert.Equal(t, 1, expected)
 }
