@@ -19,11 +19,11 @@ var (
 )
 
 func TestDay1AnswerPart1(t *testing.T) {
-	expected, _ := day1.AnswerPartOne(&testDataDay1)
-	assert.Equal(t, 514579, expected)
+	actual, _ := day1.AnswerPartOne(&testDataDay1)
+	assert.Equal(t, 514579, actual)
 }
 
 func TestDayAnswerPart2(t *testing.T) {
-	expected, _ := day1.AnswerPartTwo(&testDataDay1)
-	assert.Equal(t, 241861950, expected)
+	actual, _ := day1.AnswerPartTwo(&testDataDay1)
+	assert.Equal(t, 241861950, actual)
 }

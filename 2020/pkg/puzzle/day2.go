@@ -7,7 +7,7 @@ import (
 )
 
 var (
-	entitiesRegEx = regexp.MustCompile(`(\d+)-(\d+)\s+(\w):\s+(\w+)`)
+	entitiesRegEx = regexp.MustCompile(`^(\d+)-(\d+)\s+(\w):\s+(\w+)$`)
 )
 
 // Day2 implements the day 2 puzzle
@@ -24,7 +24,7 @@ func (d *Day2) AnswerPartOne(input *[]string) (int, error) {
 }
 
 func parseInput(input *[]string) ([]inputEntities, error) {
-	entities := make([]inputEntities, 0)
+	var entities []inputEntities
 	for _, v := range *input {
 		inputLineEntities := extractEntitiesFromLineOfInput(v)
 		entities = append(entities, inputLineEntities)
@@ -52,7 +52,7 @@ func extractEntitiesFromLineOfInput(inputLine string) inputEntities {
 }
 
 func parsePasswords(entities *[]inputEntities, policyFunc func(entities inputEntities) passwordPolicy) []password {
-	passwords := make([]password, 0)
+	var passwords []password
 	for _, item := range *entities {
 		passwords = append(passwords, password{
 			passwordValue: item.password,

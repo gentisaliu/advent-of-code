@@ -30,7 +30,7 @@ func findFirstTwoNumbersWithSum(numbers *[]int, sum int) (int, int, error) {
 }
 
 func convertToNumbers(aSlice *[]string) []int {
-	numbers := make([]int, 0)
+	var numbers []int
 	for _, v := range *aSlice {
 		number, err := strconv.Atoi(v)
 		if err != nil {
