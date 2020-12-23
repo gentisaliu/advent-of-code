@@ -9,7 +9,7 @@ import (
 )
 
 var puzzles = map[int]puzzle.Puzzle{
-	1: puzzle.Day1{},
+	1: &puzzle.Day1{},
 }
 
 // AnswerCmd
@@ -34,8 +34,7 @@ func AnswerCmd() *cobra.Command {
 }
 
 func answer(day int, inputFilePath string) error {
-	fmt.Printf("Day %v puzzle, input file %v", day, inputFilePath)
-	fmt.Println("Computing answers for part 1 and 2.")
+	fmt.Printf("Day %v puzzle, input file %v\n", day, inputFilePath)
 
 	lines, err := fs.ReadAllLines(inputFilePath)
 	if err != nil {
@@ -46,9 +45,22 @@ func answer(day int, inputFilePath string) error {
 	if !puzzleFound {
 		return fmt.Errorf("no puzzle for day %v found", day)
 	}
-	ansP1, ansP2 := puzzle.AnswerPartOne(&lines), puzzle.AnswerPartTwo(&lines)
 
-	fmt.Printf("Answers: Part 1: %v, Part 2: %v\n", ansP1, ansP2)
+	fmt.Println("Computing answers for part 1 and 2.")
+	answer1, err1 := puzzle.AnswerPartOne(&lines)
+	answer2, err2 := puzzle.AnswerPartTwo(&lines)
+
+	printAnswer("Answer Part 1: ", answer1, err1)
+	printAnswer("Answer Part 2: ", answer2, err2)
 
 	return nil
+}
+
+func printAnswer(partTxt string, answer int, err error) {
+	fmt.Print(partTxt)
+	if err != nil {
+		fmt.Printf("could not calculate answer: %v\n", err)
+	} else {
+		fmt.Printf("%d\n", answer)
+	}
 }
