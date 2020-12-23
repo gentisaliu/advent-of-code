@@ -5,9 +5,9 @@ type Day3 struct{}
 
 // AnswerPartOne answers part 1 of the day 3 puzzle
 func (d *Day3) AnswerPartOne(input *[]string) (int, error) {
-	s := slope{right: 3, down: 1}
-	w := world{*input}
-	return countTreesToWorldBottom(&w, s), nil
+	slope := slope{right: 3, down: 1}
+	world := world{*input}
+	return countTreesToWorldBottom(&world, slope), nil
 }
 
 func countTreesToWorldBottom(w *world, s slope) int {
@@ -33,10 +33,10 @@ func (d *Day3) AnswerPartTwo(input *[]string) (int, error) {
 		{right: 7, down: 1},
 		{right: 1, down: 2},
 	}
-	w := world{*input}
+	world := world{*input}
 	treeCountProd := 1
-	for _, s := range slopes {
-		treeCountProd *= countTreesToWorldBottom(&w, s)
+	for _, slope := range slopes {
+		treeCountProd *= countTreesToWorldBottom(&world, slope)
 	}
 	return treeCountProd, nil
 }

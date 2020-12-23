@@ -1,6 +1,10 @@
 package puzzle
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/stretchr/testify/assert"
+)
 
 var (
 	day2         = Day2{}
@@ -12,19 +16,11 @@ var (
 )
 
 func TestDay2AnswerPart1(t *testing.T) {
-	want := 2
-	got, _ := day2.AnswerPartOne(&testDataDay2)
-
-	if got != want {
-		t.Errorf("Got: %d. Want: %d", got, want)
-	}
+	expected, _ := day2.AnswerPartOne(&testDataDay2)
+	assert.Equal(t, expected, 2)
 }
 
 func TestDay2AnswerPart2(t *testing.T) {
-	want := 1
-	got, _ := day2.AnswerPartTwo(&testDataDay2)
-
-	if got != want {
-		t.Errorf("Got: %d. Want: %d", got, want)
-	}
+	expected, _ := day2.AnswerPartTwo(&testDataDay2)
+	assert.Equal(t, expected, 1)
 }

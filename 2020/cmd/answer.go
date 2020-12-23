@@ -12,6 +12,7 @@ var puzzles = map[int]puzzle.Puzzle{
 	1: &puzzle.Day1{},
 	2: &puzzle.Day2{},
 	3: &puzzle.Day3{},
+	4: &puzzle.Day4{},
 }
 
 // AnswerCmd
