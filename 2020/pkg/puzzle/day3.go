@@ -15,7 +15,7 @@ func countTreesToWorldBottom(w *world, s slope) int {
 	worldH := w.getHeight()
 	treeCount := 0
 	for y < worldH {
-		if w.isTreeLocatedAtPosition(x, y) {
+		if w.isTreeFeatureAtPosition(x, y) {
 			treeCount++
 		}
 		x += s.right
@@ -65,7 +65,7 @@ func (w *world) getFeatureAtPosition(x int, y int) rune {
 	return rune(line[xProjected])
 }
 
-func (w *world) isTreeLocatedAtPosition(x int, y int) bool {
+func (w *world) isTreeFeatureAtPosition(x int, y int) bool {
 	const tree = '#'
 	return w.getFeatureAtPosition(x, y) == tree
 }
