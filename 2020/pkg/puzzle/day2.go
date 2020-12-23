@@ -106,7 +106,7 @@ type inputEntities struct {
 }
 
 type passwordPolicy interface {
-	isPasswordValid(password string) bool
+	isValidPassword(password string) bool
 }
 
 type sledRentalPasswordPolicy struct {
@@ -127,15 +127,15 @@ type password struct {
 }
 
 func (p *password) isValid() bool {
-	return p.policy.isPasswordValid(p.passwordValue)
+	return p.policy.isValidPassword(p.passwordValue)
 }
 
-func (p *sledRentalPasswordPolicy) isPasswordValid(password string) bool {
+func (p *sledRentalPasswordPolicy) isValidPassword(password string) bool {
 	occurrences := strings.Count(password, string(p.letter))
 	return p.minOccur <= occurrences && occurrences <= p.maxOccur
 }
 
-func (p *tobogganCorporatePasswordPolicy) isPasswordValid(password string) bool {
+func (p *tobogganCorporatePasswordPolicy) isValidPassword(password string) bool {
 	letterLeft := password[p.positionLeft]
 	letterRight := password[p.positionRight]
 

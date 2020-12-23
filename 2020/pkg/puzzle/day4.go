@@ -21,7 +21,7 @@ type Day4 struct{}
 // AnswerPartOne answers part 1 of the day 4 puzzle
 func (d *Day4) AnswerPartOne(input *[]string) (int, error) {
 	passports := parsePassports(input)
-	validPassportCount := countPassportsWithRequiredFields(&passports)
+	validPassportCount := countPassportsWithNoMissingValues(&passports)
 	return validPassportCount, nil
 }
 
@@ -62,17 +62,17 @@ func parsePassports(input *[]string) []passport {
 	return passports
 }
 
-func countPassportsWithRequiredFields(passports *[]passport) int {
+func countPassportsWithNoMissingValues(passports *[]passport) int {
 	count := 0
 	for _, passport := range *passports {
-		if passportHasAllRequiredFields(&passport) {
+		if passportHasNoMissingValues(&passport) {
 			count++
 		}
 	}
 	return count
 }
 
-func passportHasAllRequiredFields(p *passport) bool {
+func passportHasNoMissingValues(p *passport) bool {
 	return p.byr != "" && p.iyr != "" && p.eyr != "" &&
 		p.hgt != "" && p.hcl != "" && p.ecl != "" && p.pid != ""
 }
@@ -80,14 +80,14 @@ func passportHasAllRequiredFields(p *passport) bool {
 // AnswerPartTwo answers part 2 of the day 4 puzzle
 func (d *Day4) AnswerPartTwo(input *[]string) (int, error) {
 	passports := parsePassports(input)
-	validPassportCount := countPassportsWithRequiredAndValidFields(&passports)
+	validPassportCount := countPassportsWithNoMissingAndValidValues(&passports)
 	return validPassportCount, nil
 }
 
-func countPassportsWithRequiredAndValidFields(passports *[]passport) int {
+func countPassportsWithNoMissingAndValidValues(passports *[]passport) int {
 	count := 0
 	for _, passport := range *passports {
-		if passportHasAllRequiredFields(&passport) && passportHasValidValues(&passport) {
+		if passportHasNoMissingValues(&passport) && passportHasValidValues(&passport) {
 			count++
 		}
 	}
