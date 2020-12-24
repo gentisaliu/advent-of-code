@@ -16,7 +16,7 @@ var (
 	}
 )
 
-func TestDay5AnswerPart1(t *testing.T) {
+func TestDay5Part1(t *testing.T) {
 	actual, _ := day5.AnswerPartOne(&testDataDay5)
 	assert.Equal(t, 820, actual)
 }

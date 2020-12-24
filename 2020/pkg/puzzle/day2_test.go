@@ -15,12 +15,12 @@ var (
 	}
 )
 
-func TestDay2AnswerPart1(t *testing.T) {
+func TestDay2Part1(t *testing.T) {
 	actual, _ := day2.AnswerPartOne(&testDataDay2)
 	assert.Equal(t, 2, actual)
 }
 
-func TestDay2AnswerPart2(t *testing.T) {
+func TestDay2Part2(t *testing.T) {
 	actual, _ := day2.AnswerPartTwo(&testDataDay2)
 	assert.Equal(t, 1, actual)
 }
