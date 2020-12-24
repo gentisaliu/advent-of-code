@@ -12,17 +12,17 @@ type Day5 struct{}
 // AnswerPartOne answers part 1 of the day 5 puzzle
 func (d *Day5) AnswerPartOne(input *[]string) (int, error) {
 	seats := decodeBoardingPasses(input)
-	return getHighestSeatID(&seats), nil
+	return findMaxSeatID(&seats), nil
 }
 
-func getHighestSeatID(seats *[]seat) int {
-	var highestSeatID int
+func findMaxSeatID(seats *[]seat) int {
+	var maxSeatID int
 	for _, seat := range *seats {
-		if seat.getID() > highestSeatID {
-			highestSeatID = seat.getID()
+		if seat.getID() > maxSeatID {
+			maxSeatID = seat.getID()
 		}
 	}
-	return highestSeatID
+	return maxSeatID
 }
 
 func decodeBoardingPasses(input *[]string) []seat {
@@ -60,10 +60,10 @@ func convertBinaryToInt(binaryString string) int {
 
 // AnswerPartTwo answers part 2 of the day 5 puzzle
 func (d *Day5) AnswerPartTwo(input *[]string) (int, error) {
-	occupiedSeats := decodeBoardingPasses(input)
-	occupiedSeatsIDs := getSeatIDs(&occupiedSeats)
-	mySeatID, err := findEmptySeatSurroundedByOccupiedSeats(&occupiedSeatsIDs)
-	return mySeatID, err
+	seats := decodeBoardingPasses(input)
+	seatsIDs := getSeatIDs(&seats)
+	missingSeatID, err := findMissingSeatBetweenSeatsInList(&seatsIDs)
+	return missingSeatID, err
 }
 
 func getSeatIDs(seats *[]seat) map[int]bool {
@@ -74,8 +74,8 @@ func getSeatIDs(seats *[]seat) map[int]bool {
 	return seatIDs
 }
 
-func findEmptySeatSurroundedByOccupiedSeats(seatIDs *map[int]bool) (int, error) {
-	// Do not look for seats at the very front (row 0) and back (row 127) rows
+func findMissingSeatBetweenSeatsInList(seatIDs *map[int]bool) (int, error) {
+	// Do not look for seats at the very front (row 0) and back (row 127)
 	minSeatID, maxSeatID := calculateSeatID(1, 0), calculateSeatID(126, 8)
 	var seatID = minSeatID + 1
 	for seatID < maxSeatID-1 {
@@ -84,7 +84,7 @@ func findEmptySeatSurroundedByOccupiedSeats(seatIDs *map[int]bool) (int, error) 
 		}
 		seatID++
 	}
-	return -1, errors.New("could not find empty seat surrounded by two occupied seats")
+	return -1, errors.New("could not find missing seat between two seats in list")
 }
 
 type seat struct {
