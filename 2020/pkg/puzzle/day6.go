@@ -2,56 +2,56 @@ package puzzle
 
 import "strings"
 
-// Day6 implements the day 5 puzzle
+// Day6 implements the day 6 puzzle
 type Day6 struct{}
 
 // AnswerPartOne answers part 1 of the day 6 puzzle
 func (d *Day6) AnswerPartOne(input *[]string) (int, error) {
-	groupsAnswers := parseYesAnswersOfGroups(input)
+	groupsAnswers := parseQuestionsAnsweredYesByGroups(input)
 	return countQuestionsAnsweredYes(&groupsAnswers), nil
 }
 
-func parseYesAnswersOfGroups(input *[]string) []groupAnswers {
-	var answersGroups []groupAnswers
-	answersCurrGroup := newGroupAnswers()
+func parseQuestionsAnsweredYesByGroups(input *[]string) []groupYesAnswers {
+	var yesAnswersGroups []groupYesAnswers
+	yesAnswersCurrGroup := newGroupYesAnswers()
 	for _, line := range *input {
 		if strings.TrimSpace(line) == "" {
-			answersGroups = append(answersGroups, answersCurrGroup)
-			answersCurrGroup = newGroupAnswers()
+			yesAnswersGroups = append(yesAnswersGroups, yesAnswersCurrGroup)
+			yesAnswersCurrGroup = newGroupYesAnswers()
 			continue
 		}
-		answersCurrGroup.peopleCount++
+		yesAnswersCurrGroup.peopleCount++
 		for _, questionID := range line {
-			answersCurrGroup.yesAnswerCountByQuestion[questionID]++
+			yesAnswersCurrGroup.countByQuestion[questionID]++
 		}
 	}
-	return answersGroups
+	return yesAnswersGroups
 }
 
-func newGroupAnswers() groupAnswers {
-	return groupAnswers{
-		yesAnswerCountByQuestion: make(map[rune]int),
+func newGroupYesAnswers() groupYesAnswers {
+	return groupYesAnswers{
+		countByQuestion: make(map[rune]int),
 	}
 }
 
-func countQuestionsAnsweredYes(groupsAnswers *[]groupAnswers) int {
+func countQuestionsAnsweredYes(groupsAnswers *[]groupYesAnswers) int {
 	var yesCount int
 	for _, groupAnswers := range *groupsAnswers {
-		yesCount += len(groupAnswers.yesAnswerCountByQuestion)
+		yesCount += len(groupAnswers.countByQuestion)
 	}
 	return yesCount
 }
 
 // AnswerPartTwo answers part 2 of the day 6 puzzle
 func (d *Day6) AnswerPartTwo(input *[]string) (int, error) {
-	groupsAnswers := parseYesAnswersOfGroups(input)
+	groupsAnswers := parseQuestionsAnsweredYesByGroups(input)
 	return countQuestionsAnsweredYesByAllInGroups(&groupsAnswers), nil
 }
 
-func countQuestionsAnsweredYesByAllInGroups(allGroupsAnswers *[]groupAnswers) int {
+func countQuestionsAnsweredYesByAllInGroups(allGroupsAnswers *[]groupYesAnswers) int {
 	var answeredYesByAllCount int
 	for _, groupAnswers := range *allGroupsAnswers {
-		for _, a := range groupAnswers.yesAnswerCountByQuestion {
+		for _, a := range groupAnswers.countByQuestion {
 			if a == groupAnswers.peopleCount {
 				answeredYesByAllCount++
 			}
@@ -60,7 +60,7 @@ func countQuestionsAnsweredYesByAllInGroups(allGroupsAnswers *[]groupAnswers) in
 	return answeredYesByAllCount
 }
 
-type groupAnswers struct {
-	yesAnswerCountByQuestion map[rune]int
-	peopleCount              int
+type groupYesAnswers struct {
+	countByQuestion map[rune]int
+	peopleCount     int
 }
