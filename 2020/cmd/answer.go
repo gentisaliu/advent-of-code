@@ -14,6 +14,7 @@ var puzzles = map[int]puzzle.Puzzle{
 	3: &puzzle.Day3{},
 	4: &puzzle.Day4{},
 	5: &puzzle.Day5{},
+	6: &puzzle.Day6{},
 }
 
 // AnswerCmd
@@ -42,7 +43,7 @@ func answer(day int, inputFilePath string) error {
 
 	lines, err := fs.ReadAllLines(inputFilePath)
 	if err != nil {
-		return fmt.Errorf("failed reading lines from input file: %v", err)
+		return fmt.Errorf("error reading input file: %v", err)
 	}
 
 	puzzle, puzzleFound := puzzles[day]
