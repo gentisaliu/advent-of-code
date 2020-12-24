@@ -21,8 +21,8 @@ type Day4 struct{}
 // AnswerPartOne answers part 1 of the day 4 puzzle
 func (d *Day4) AnswerPartOne(input *[]string) (int, error) {
 	passports := parsePassports(input)
-	validPassportCount := countPassportsWithNoMissingValues(&passports)
-	return validPassportCount, nil
+	passportCount := countPassportsWithNoMissingValues(&passports)
+	return passportCount, nil
 }
 
 func parsePassports(input *[]string) []passport {
@@ -80,8 +80,8 @@ func passportHasNoMissingValues(p *passport) bool {
 // AnswerPartTwo answers part 2 of the day 4 puzzle
 func (d *Day4) AnswerPartTwo(input *[]string) (int, error) {
 	passports := parsePassports(input)
-	validPassportCount := countPassportsWithNoMissingAndValidValues(&passports)
-	return validPassportCount, nil
+	passportCount := countPassportsWithNoMissingAndValidValues(&passports)
+	return passportCount, nil
 }
 
 func countPassportsWithNoMissingAndValidValues(passports *[]passport) int {
