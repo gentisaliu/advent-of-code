@@ -2,7 +2,8 @@ package day1
 
 import (
 	"fmt"
-	"strconv"
+
+	"github.com/gentisaliu/advent-of-code/2020/internal/list"
 )
 
 const targetSum = 2020
@@ -12,21 +13,10 @@ type Solution struct{}
 
 // PartOne answers part 1 of the day 1 puzzle
 func (d *Solution) PartOne(input *[]string) (int, error) {
-	numbers := parseNumbersFromInput(input)
-	nr1, nr2, err := findTwoNumbersWithSum(&numbers, targetSum)
-	return nr1 * nr2, err
-}
+	numbers := list.ConvertStringSliceToNumberSlice(input)
 
-func parseNumbersFromInput(aSlice *[]string) []int {
-	var numbers []int
-	for _, v := range *aSlice {
-		number, err := strconv.Atoi(v)
-		if err != nil {
-			panic(err)
-		}
-		numbers = append(numbers, number)
-	}
-	return numbers
+	nr1, nr2, err := findTwoNumbersWithSum(numbers, targetSum)
+	return nr1 * nr2, err
 }
 
 func findTwoNumbersWithSum(numbers *[]int, sum int) (int, int, error) {
@@ -43,8 +33,8 @@ func findTwoNumbersWithSum(numbers *[]int, sum int) (int, int, error) {
 
 // PartTwo answers part 2 of the day 1 puzzle
 func (d *Solution) PartTwo(input *[]string) (int, error) {
-	numbers := parseNumbersFromInput(input)
-	nr1, nr2, nr3, err := findThreeNumbersWithSum(&numbers, targetSum)
+	numbers := list.ConvertStringSliceToNumberSlice(input)
+	nr1, nr2, nr3, err := findThreeNumbersWithSum(numbers, targetSum)
 	return nr1 * nr2 * nr3, err
 }
 

@@ -14,6 +14,7 @@ import (
 	"github.com/gentisaliu/advent-of-code/2020/pkg/day6"
 	"github.com/gentisaliu/advent-of-code/2020/pkg/day7"
 	"github.com/gentisaliu/advent-of-code/2020/pkg/day8"
+	"github.com/gentisaliu/advent-of-code/2020/pkg/day9"
 	"github.com/spf13/cobra"
 )
 
@@ -26,6 +27,7 @@ var solutions = map[int]day.Solution{
 	6: &day6.Solution{},
 	7: &day7.Solution{},
 	8: &day8.Solution{},
+	9: &day9.Solution{},
 }
 
 // AnswerCmd
