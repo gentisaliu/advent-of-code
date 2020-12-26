@@ -16,6 +16,7 @@ var puzzles = map[int]puzzle.Puzzle{
 	5: &puzzle.Day5{},
 	6: &puzzle.Day6{},
 	7: &puzzle.Day7{},
+	8: &puzzle.Day8{},
 }
 
 // AnswerCmd
@@ -47,23 +48,22 @@ func answer(day int, inputFilePath string) error {
 		return fmt.Errorf("error reading input file: %v", err)
 	}
 
-	puzzle, puzzleFound := puzzles[day]
-	if !puzzleFound {
+	puzzle, dayFound := puzzles[day]
+	if !dayFound {
 		return fmt.Errorf("no puzzle for day %v found", day)
 	}
 
-	fmt.Println("Computing answers for part 1 and 2.")
 	answer1, err1 := puzzle.AnswerPartOne(&lines)
-	answer2, err2 := puzzle.AnswerPartTwo(&lines)
-
 	printAnswer("Answer Part 1: ", answer1, err1)
+
+	answer2, err2 := puzzle.AnswerPartTwo(&lines)
 	printAnswer("Answer Part 2: ", answer2, err2)
 
 	return nil
 }
 
-func printAnswer(partTxt string, answer int, err error) {
-	fmt.Print(partTxt)
+func printAnswer(label string, answer int, err error) {
+	fmt.Print(label)
 	if err != nil {
 		fmt.Printf("could not calculate answer: %v\n", err)
 	} else {
