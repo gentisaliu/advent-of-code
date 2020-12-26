@@ -1,4 +1,4 @@
-package puzzle
+package day2
 
 import (
 	"regexp"
@@ -10,11 +10,11 @@ var (
 	entitiesRegEx = regexp.MustCompile(`^(\d+)-(\d+)\s+(\w):\s+(\w+)$`)
 )
 
-// Day2 implements the day 2 puzzle
-type Day2 struct{}
+// Solution solves the day 2 puzzle
+type Solution struct{}
 
-// AnswerPartOne answers part 1 of the day 2 puzzle
-func (d *Day2) AnswerPartOne(input *[]string) (int, error) {
+// PartOne answers part 1 of the day 2 puzzle
+func (d *Solution) PartOne(input *[]string) (int, error) {
 	entities, err := parseInput(input)
 	if err != nil {
 		return 0, err
@@ -80,8 +80,8 @@ func countValidPasswords(passwords *[]password) int {
 	return validPasswords
 }
 
-// AnswerPartTwo answers part 2 of the day 2 puzzle
-func (d *Day2) AnswerPartTwo(input *[]string) (int, error) {
+// PartTwo answers part 2 of the day 2 puzzle
+func (d *Solution) PartTwo(input *[]string) (int, error) {
 	entities, err := parseInput(input)
 	if err != nil {
 		return 0, err

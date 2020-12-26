@@ -1,4 +1,4 @@
-package puzzle
+package day8
 
 import (
 	"fmt"
@@ -15,11 +15,11 @@ const (
 	exitCodeInfiniteLoop = 2
 )
 
-// Day8 implements the day 8 solution
-type Day8 struct{}
+// Solution implements the day 8 solution
+type Solution struct{}
 
-// AnswerPartOne answers part 1 of the day 8 puzzle
-func (d *Day8) AnswerPartOne(input *[]string) (int, error) {
+// PartOne answers part 1 of the day 8 puzzle
+func (d *Solution) PartOne(input *[]string) (int, error) {
 	cpu := processor{}
 	cpu.enableInfiniteLoopDetection()
 	cpu.loadProgram(input)
@@ -27,58 +27,50 @@ func (d *Day8) AnswerPartOne(input *[]string) (int, error) {
 	return cpu.accumulator, err
 }
 
-// AnswerPartTwo answers part 2 of the day 8 puzzle
-func (d *Day8) AnswerPartTwo(input *[]string) (int, error) {
+// PartTwo answers part 2 of the day 8 puzzle
+func (d *Solution) PartTwo(input *[]string) (int, error) {
 	cpu := processor{}
 	cpu.enableInfiniteLoopDetection()
 	cpu.loadProgram(input)
 	exitCode, err := cpu.executeProgram()
 	if exitCode == exitCodeInfiniteLoop && err == nil {
-		fixProgram(input, func(s *[]string) bool {
-			cpu.loadProgram(s)
+		for lineNr := range *input {
+			program, programChanged := changeJmpNopInstructionInProgramLine(input, lineNr)
+			if !programChanged {
+				continue
+			}
+			cpu.loadProgram(program)
 			exitCode, err = cpu.executeProgram()
-			return exitCode == exitCodeOk
-		})
-	}
-	return cpu.accumulator, err
-}
-
-func fixProgram(input *[]string, onProgramFixFunc func(*[]string) bool) {
-	for i, instruction := range *input {
-		newInstruction := instruction
-
-		isJmp := strings.HasPrefix(instruction, "jmp")
-		if isJmp {
-			newInstruction = changeJmpInstructionToNop(instruction)
-		}
-
-		isNop := strings.HasPrefix(instruction, "nop")
-		if isNop {
-			newInstruction = changeJmpInstructionToNop(instruction)
-		}
-
-		if isJmp || isNop {
-			newProgram := replaceSliceElement(input, newInstruction, i)
-			if onProgramFixFunc(newProgram) {
+			if exitCode == exitCodeOk {
 				break
 			}
 		}
 	}
+	return cpu.accumulator, err
 }
 
-func replaceSliceElement(slice *[]string, newElem string, index int) *[]string {
+func changeJmpNopInstructionInProgramLine(program *[]string, lineNr int) (*[]string, bool) {
+	instruction := (*program)[lineNr]
+	instructionChanged := instruction
+
+	if strings.HasPrefix(instruction, "jmp") {
+		instructionChanged = strings.ReplaceAll(instruction, "jmp", "nop")
+	} else if strings.HasPrefix(instruction, "nop") {
+		instructionChanged = strings.ReplaceAll(instruction, "nop", "jmp")
+	}
+
+	if instructionChanged != instruction {
+		newProgram := replaceSliceElement(program, lineNr, instructionChanged)
+		return newProgram, true
+	}
+	return program, false
+}
+
+func replaceSliceElement(slice *[]string, index int, newElem string) *[]string {
 	newSlice := make([]string, len(*slice))
 	copy(newSlice, *slice)
 	newSlice[index] = newElem
 	return &newSlice
-}
-
-func changeJmpInstructionToNop(instruction string) string {
-	return strings.ReplaceAll(instruction, "jmp", "nop")
-}
-
-func changeNopInstructionToJmp(instruction string) string {
-	return strings.ReplaceAll(instruction, "nop", "jmp")
 }
 
 type opCode int

@@ -1,12 +1,12 @@
-package puzzle
+package day6
 
 import "strings"
 
-// Day6 implements the day 6 puzzle
-type Day6 struct{}
+// Solution implements the day 6 puzzle
+type Solution struct{}
 
-// AnswerPartOne answers part 1 of the day 6 puzzle
-func (d *Day6) AnswerPartOne(input *[]string) (int, error) {
+// PartOne answers part 1 of the day 6 puzzle
+func (d *Solution) PartOne(input *[]string) (int, error) {
 	yesAnswers := parseYesAnswers(input)
 	return countYesAnswers(&yesAnswers), nil
 }
@@ -42,8 +42,8 @@ func countYesAnswers(yesAnswersAllGroups *[]yesAnswersInGroup) int {
 	return yesCount
 }
 
-// AnswerPartTwo answers part 2 of the day 6 puzzle
-func (d *Day6) AnswerPartTwo(input *[]string) (int, error) {
+// PartTwo answers part 2 of the day 6 puzzle
+func (d *Solution) PartTwo(input *[]string) (int, error) {
 	yesAnswers := parseYesAnswers(input)
 	return countQuestionsAnsweredYesByAllInGroups(&yesAnswers), nil
 }

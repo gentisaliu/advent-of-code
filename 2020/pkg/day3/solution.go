@@ -1,10 +1,10 @@
-package puzzle
+package day3
 
-// Day3 implements the day 3 puzzle
-type Day3 struct{}
+// Solution implements the day 3 puzzle
+type Solution struct{}
 
-// AnswerPartOne answers part 1 of the day 3 puzzle
-func (d *Day3) AnswerPartOne(input *[]string) (int, error) {
+// PartOne answers part 1 of the day 3 puzzle
+func (d *Solution) PartOne(input *[]string) (int, error) {
 	slope := slope{right: 3, down: 1}
 	world := world{*input}
 	return countTreesToWorldBottom(&world, slope), nil
@@ -24,8 +24,8 @@ func countTreesToWorldBottom(w *world, s slope) int {
 	return treeCount
 }
 
-// AnswerPartTwo answers part 2 of the day 3 puzzle
-func (d *Day3) AnswerPartTwo(input *[]string) (int, error) {
+// PartTwo answers part 2 of the day 3 puzzle
+func (d *Solution) PartTwo(input *[]string) (int, error) {
 	slopes := []slope{
 		{right: 1, down: 1},
 		{right: 3, down: 1},

@@ -1,4 +1,4 @@
-package puzzle
+package day5
 
 import (
 	"testing"
@@ -7,8 +7,8 @@ import (
 )
 
 var (
-	day5         = Day5{}
-	testDataDay5 = []string{
+	solution = Solution{}
+	testData = []string{
 		"FBFBBFFRLR",
 		"BFFFBBFRRR",
 		"FFFBBBFRRR",
@@ -16,7 +16,7 @@ var (
 	}
 )
 
-func TestDay5Part1(t *testing.T) {
-	actual, _ := day5.AnswerPartOne(&testDataDay5)
+func TestPart1(t *testing.T) {
+	actual, _ := solution.PartOne(&testData)
 	assert.Equal(t, 820, actual)
 }

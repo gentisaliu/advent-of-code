@@ -1,4 +1,4 @@
-package puzzle
+package day4
 
 import (
 	"regexp"
@@ -6,20 +6,22 @@ import (
 )
 
 var (
-	byrRegex = regexp.MustCompile(`^(19[2-9][0-9]|200[1-2])$`)
-	iyrRegex = regexp.MustCompile(`^(201[0-9]|2020)$`)
-	eyrRegex = regexp.MustCompile(`^(202[0-9]|2030)$`)
-	hgtRegex = regexp.MustCompile(`^(1[5-8][0-9]cm|19[0-3]cm|59in|6[0-9]in|7[0-6]in)$`)
-	hclRegex = regexp.MustCompile(`^#[0-9A-Fa-f]{6}$`)
-	eclRegex = regexp.MustCompile(`^(amb|blu|brn|gry|grn|hzl|oth)$`)
-	pidRegex = regexp.MustCompile(`^[0-9]{9}$`)
+	pairDelimiter     = " "
+	keyValueDelimiter = ":"
+	byrRegex          = regexp.MustCompile(`^(19[2-9][0-9]|200[1-2])$`)
+	iyrRegex          = regexp.MustCompile(`^(201[0-9]|2020)$`)
+	eyrRegex          = regexp.MustCompile(`^(202[0-9]|2030)$`)
+	hgtRegex          = regexp.MustCompile(`^(1[5-8][0-9]cm|19[0-3]cm|59in|6[0-9]in|7[0-6]in)$`)
+	hclRegex          = regexp.MustCompile(`^#[0-9A-Fa-f]{6}$`)
+	eclRegex          = regexp.MustCompile(`^(amb|blu|brn|gry|grn|hzl|oth)$`)
+	pidRegex          = regexp.MustCompile(`^[0-9]{9}$`)
 )
 
-// Day4 implements the day 4 puzzle
-type Day4 struct{}
+// Solution implements the day 4 puzzle
+type Solution struct{}
 
-// AnswerPartOne answers part 1 of the day 4 puzzle
-func (d *Day4) AnswerPartOne(input *[]string) (int, error) {
+// PartOne answers part 1 of the day 4 puzzle
+func (d *Solution) PartOne(input *[]string) (int, error) {
 	passports := parsePassports(input)
 	passportCount := countPassportsWithNoMissingValues(&passports)
 	return passportCount, nil
@@ -34,9 +36,9 @@ func parsePassports(input *[]string) []passport {
 			currentPassport = passport{}
 			continue
 		}
-		entries := strings.Split(line, " ")
+		entries := strings.Split(line, pairDelimiter)
 		for _, kvp := range entries {
-			keyValue := strings.Split(kvp, ":")
+			keyValue := strings.Split(kvp, keyValueDelimiter)
 			key := keyValue[0]
 			value := keyValue[1]
 			switch key {
@@ -65,20 +67,15 @@ func parsePassports(input *[]string) []passport {
 func countPassportsWithNoMissingValues(passports *[]passport) int {
 	count := 0
 	for _, passport := range *passports {
-		if passportHasNoMissingValues(&passport) {
+		if passport.requiredFieldsProvided() {
 			count++
 		}
 	}
 	return count
 }
 
-func passportHasNoMissingValues(p *passport) bool {
-	return p.byr != "" && p.iyr != "" && p.eyr != "" &&
-		p.hgt != "" && p.hcl != "" && p.ecl != "" && p.pid != ""
-}
-
-// AnswerPartTwo answers part 2 of the day 4 puzzle
-func (d *Day4) AnswerPartTwo(input *[]string) (int, error) {
+// PartTwo answers part 2 of the day 4 puzzle
+func (d *Solution) PartTwo(input *[]string) (int, error) {
 	passports := parsePassports(input)
 	passportCount := countPassportsWithNoMissingAndValidValues(&passports)
 	return passportCount, nil
@@ -87,21 +84,11 @@ func (d *Day4) AnswerPartTwo(input *[]string) (int, error) {
 func countPassportsWithNoMissingAndValidValues(passports *[]passport) int {
 	count := 0
 	for _, passport := range *passports {
-		if passportHasNoMissingValues(&passport) && passportHasValidValues(&passport) {
+		if passport.requiredFieldsProvided() && passport.fieldsHaveValidValues() {
 			count++
 		}
 	}
 	return count
-}
-
-func passportHasValidValues(p *passport) bool {
-	return byrRegex.MatchString(p.byr) &&
-		iyrRegex.MatchString(p.iyr) &&
-		eyrRegex.MatchString(p.eyr) &&
-		hgtRegex.MatchString(p.hgt) &&
-		hclRegex.MatchString(p.hcl) &&
-		eclRegex.MatchString(p.ecl) &&
-		pidRegex.MatchString(p.pid)
 }
 
 type passport struct {
@@ -113,4 +100,19 @@ type passport struct {
 	ecl string
 	pid string
 	cid string
+}
+
+func (p *passport) requiredFieldsProvided() bool {
+	return p.byr != "" && p.iyr != "" && p.eyr != "" &&
+		p.hgt != "" && p.hcl != "" && p.ecl != "" && p.pid != ""
+}
+
+func (p *passport) fieldsHaveValidValues() bool {
+	return byrRegex.MatchString(p.byr) &&
+		iyrRegex.MatchString(p.iyr) &&
+		eyrRegex.MatchString(p.eyr) &&
+		hgtRegex.MatchString(p.hgt) &&
+		hclRegex.MatchString(p.hcl) &&
+		eclRegex.MatchString(p.ecl) &&
+		pidRegex.MatchString(p.pid)
 }

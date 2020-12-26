@@ -1,4 +1,4 @@
-package puzzle
+package day5
 
 import (
 	"errors"
@@ -6,11 +6,11 @@ import (
 	"strings"
 )
 
-// Day5 implements the day 5 puzzle
-type Day5 struct{}
+// Solution implements the day 5 puzzle
+type Solution struct{}
 
-// AnswerPartOne answers part 1 of the day 5 puzzle
-func (d *Day5) AnswerPartOne(input *[]string) (int, error) {
+// PartOne answers part 1 of the day 5 puzzle
+func (d *Solution) PartOne(input *[]string) (int, error) {
 	seats := decodeBoardingPasses(input)
 	return findMaxSeatID(&seats), nil
 }
@@ -58,8 +58,8 @@ func convertBinaryToInt(binaryString string) int {
 	return int(n)
 }
 
-// AnswerPartTwo answers part 2 of the day 5 puzzle
-func (d *Day5) AnswerPartTwo(input *[]string) (int, error) {
+// PartTwo answers part 2 of the day 5 puzzle
+func (d *Solution) PartTwo(input *[]string) (int, error) {
 	seats := decodeBoardingPasses(input)
 	seatsIDs := getSeatIDs(&seats)
 	missingSeatID, err := findMissingSeatBetweenSeatsInList(&seatsIDs)
@@ -87,6 +87,10 @@ func findMissingSeatBetweenSeatsInList(seatIDs *map[int]bool) (int, error) {
 	return -1, errors.New("could not find missing seat between two seats in list")
 }
 
+func calculateSeatID(row, column int) int {
+	return row*8 + column
+}
+
 type seat struct {
 	row    int
 	column int
@@ -94,8 +98,4 @@ type seat struct {
 
 func (s *seat) getID() int {
 	return calculateSeatID(s.row, s.column)
-}
-
-func calculateSeatID(row, column int) int {
-	return row*8 + column
 }

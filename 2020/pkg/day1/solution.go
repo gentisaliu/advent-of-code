@@ -1,4 +1,4 @@
-package puzzle
+package day1
 
 import (
 	"fmt"
@@ -7,11 +7,11 @@ import (
 
 const targetSum = 2020
 
-// Day1 implements the day 1 puzzle
-type Day1 struct{}
+// Solution solves the day 1 puzzle
+type Solution struct{}
 
-// AnswerPartOne answers part 1 of the day 1 puzzle
-func (d *Day1) AnswerPartOne(input *[]string) (int, error) {
+// PartOne answers part 1 of the day 1 puzzle
+func (d *Solution) PartOne(input *[]string) (int, error) {
 	numbers := parseNumbersFromInput(input)
 	nr1, nr2, err := findTwoNumbersWithSum(&numbers, targetSum)
 	return nr1 * nr2, err
@@ -41,8 +41,8 @@ func findTwoNumbersWithSum(numbers *[]int, sum int) (int, int, error) {
 	return 0, 0, fmt.Errorf("could not find two numbers with sum %d", sum)
 }
 
-// AnswerPartTwo answers part 2 of the day 1 puzzle
-func (d *Day1) AnswerPartTwo(input *[]string) (int, error) {
+// PartTwo answers part 2 of the day 1 puzzle
+func (d *Solution) PartTwo(input *[]string) (int, error) {
 	numbers := parseNumbersFromInput(input)
 	nr1, nr2, nr3, err := findThreeNumbersWithSum(&numbers, targetSum)
 	return nr1 * nr2 * nr3, err

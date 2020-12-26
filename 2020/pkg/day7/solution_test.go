@@ -1,4 +1,4 @@
-package puzzle
+package day7
 
 import (
 	"testing"
@@ -7,8 +7,8 @@ import (
 )
 
 var (
-	day7         = Day7{}
-	testDataDay7 = []string{
+	solution = Solution{}
+	testData = []string{
 		"light red bags contain 1 bright white bag, 2 muted yellow bags.",
 		"dark orange bags contain 3 bright white bags, 4 muted yellow bags.",
 		"bright white bags contain 1 shiny gold bag.",
@@ -19,7 +19,7 @@ var (
 		"faded blue bags contain no other bags.",
 		"dotted black bags contain no other bags.",
 	}
-	testDataDay7Part2 = []string{
+	testDataPart2 = []string{
 		"shiny gold bags contain 2 dark red bags.",
 		"dark red bags contain 2 dark orange bags.",
 		"dark orange bags contain 2 dark yellow bags.",
@@ -30,17 +30,17 @@ var (
 	}
 )
 
-func TestDay7Part1(t *testing.T) {
-	actual, _ := day7.AnswerPartOne(&testDataDay7)
+func TestPart1(t *testing.T) {
+	actual, _ := solution.PartOne(&testData)
 	assert.Equal(t, 4, actual)
 }
 
-func TestDay7Part2Part1(t *testing.T) {
-	actual, _ := day7.AnswerPartTwo(&testDataDay7)
+func TestPart2Test1(t *testing.T) {
+	actual, _ := solution.PartTwo(&testData)
 	assert.Equal(t, 32, actual)
 }
 
-func TestDay7Part2Test2(t *testing.T) {
-	actual, _ := day7.AnswerPartTwo(&testDataDay7Part2)
+func TestPart2Test2(t *testing.T) {
+	actual, _ := solution.PartTwo(&testDataPart2)
 	assert.Equal(t, 126, actual)
 }

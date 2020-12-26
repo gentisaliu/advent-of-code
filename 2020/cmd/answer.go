@@ -2,21 +2,30 @@ package cmd
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/gentisaliu/advent-of-code/2020/internal/fs"
-	"github.com/gentisaliu/advent-of-code/2020/pkg/puzzle"
+	"github.com/gentisaliu/advent-of-code/2020/pkg/day"
+	"github.com/gentisaliu/advent-of-code/2020/pkg/day1"
+	"github.com/gentisaliu/advent-of-code/2020/pkg/day2"
+	"github.com/gentisaliu/advent-of-code/2020/pkg/day3"
+	"github.com/gentisaliu/advent-of-code/2020/pkg/day4"
+	"github.com/gentisaliu/advent-of-code/2020/pkg/day5"
+	"github.com/gentisaliu/advent-of-code/2020/pkg/day6"
+	"github.com/gentisaliu/advent-of-code/2020/pkg/day7"
+	"github.com/gentisaliu/advent-of-code/2020/pkg/day8"
 	"github.com/spf13/cobra"
 )
 
-var puzzles = map[int]puzzle.Puzzle{
-	1: &puzzle.Day1{},
-	2: &puzzle.Day2{},
-	3: &puzzle.Day3{},
-	4: &puzzle.Day4{},
-	5: &puzzle.Day5{},
-	6: &puzzle.Day6{},
-	7: &puzzle.Day7{},
-	8: &puzzle.Day8{},
+var solutions = map[int]day.Solution{
+	1: &day1.Solution{},
+	2: &day2.Solution{},
+	3: &day3.Solution{},
+	4: &day4.Solution{},
+	5: &day5.Solution{},
+	6: &day6.Solution{},
+	7: &day7.Solution{},
+	8: &day8.Solution{},
 }
 
 // AnswerCmd
@@ -43,30 +52,47 @@ func AnswerCmd() *cobra.Command {
 func answer(day int, inputFilePath string) error {
 	fmt.Printf("Day %v puzzle, input file %v\n", day, inputFilePath)
 
-	lines, err := fs.ReadAllLines(inputFilePath)
+	input, err := fs.ReadAllLines(inputFilePath)
 	if err != nil {
 		return fmt.Errorf("error reading input file: %v", err)
 	}
 
-	puzzle, dayFound := puzzles[day]
+	solution, dayFound := solutions[day]
 	if !dayFound {
-		return fmt.Errorf("no puzzle for day %v found", day)
+		return fmt.Errorf("no solution for day %v found", day)
 	}
 
-	answer1, err1 := puzzle.AnswerPartOne(&lines)
-	printAnswer("Answer Part 1: ", answer1, err1)
-
-	answer2, err2 := puzzle.AnswerPartTwo(&lines)
-	printAnswer("Answer Part 2: ", answer2, err2)
+	err = partOne(&solution, &input)
+	err = partTwo(&solution, &input)
 
 	return nil
 }
 
-func printAnswer(label string, answer int, err error) {
-	fmt.Print(label)
-	if err != nil {
-		fmt.Printf("could not calculate answer: %v\n", err)
-	} else {
-		fmt.Printf("%d\n", answer)
+func partOne(solution *day.Solution, input *[]string) error {
+	start := time.Now()
+	answer, err := (*solution).PartOne(input)
+	elapsed := time.Since(start)
+
+	printAnswer(1, answer, err, elapsed)
+
+	return err
+}
+
+func partTwo(solution *day.Solution, input *[]string) error {
+	start := time.Now()
+	answer, err := (*solution).PartTwo(input)
+	elapsed := time.Since(start)
+
+	printAnswer(2, answer, err, elapsed)
+
+	return err
+}
+
+func printAnswer(part int, answer int, err error, duration time.Duration) {
+	switch {
+	case err != nil:
+		fmt.Printf("error calculating answer: %v\n", err)
+	default:
+		fmt.Printf("Answer part %d: %d (duration: %v)\n", part, answer, duration)
 	}
 }
