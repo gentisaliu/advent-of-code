@@ -28,19 +28,6 @@ func (d *Solution) PartTwo(input *[]string) (int, error) {
 	return encodedData.findEncryptionWeakness()
 }
 
-func getMinMax(numbers *[]int) (int, int) {
-	min, max := (*numbers)[0], (*numbers)[0]
-	for i := range *numbers {
-		number := (*numbers)[i]
-		if number > max {
-			max = number
-		} else if number < min {
-			min = number
-		}
-	}
-	return min, max
-}
-
 type xmasEncodedData struct {
 	numbers *[]int
 }
@@ -73,22 +60,13 @@ func (d *xmasEncodedData) findEncryptionWeakness() (int, error) {
 	if err != nil {
 		return 0, err
 	}
-	corruptedNumberIndex := d.getElementIndex(corruptedNumber)
+	corruptedNumberIndex := list.GetIndexOfFirstNumberOccurrence(d.numbers, corruptedNumber)
 	sliceSet, err := d.findContiguousSetWithSum(corruptedNumber, 0, corruptedNumberIndex)
 	if err != nil {
 		return 0, err
 	}
-	min, max := getMinMax(&sliceSet)
+	min, max := list.GetMinMax(&sliceSet)
 	return min + max, nil
-}
-
-func (d *xmasEncodedData) getElementIndex(el int) int {
-	for i := range *d.numbers {
-		if (*d.numbers)[i] == el {
-			return i
-		}
-	}
-	return -1
 }
 
 func (d *xmasEncodedData) findContiguousSetWithSum(targetSum, startIndex, endIndex int) ([]int, error) {

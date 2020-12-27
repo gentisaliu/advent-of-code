@@ -16,3 +16,26 @@ func ConvertStringSliceToNumberSlice(aSlice *[]string) *[]int {
 	}
 	return &numbers
 }
+
+// GetMinMax finds the minimum and maximum in a list of integers
+func GetMinMax(numbers *[]int) (int, int) {
+	min, max := (*numbers)[0], (*numbers)[0]
+	for _, number := range *numbers {
+		if number > max {
+			max = number
+		} else if number < min {
+			min = number
+		}
+	}
+	return min, max
+}
+
+// GetIndexOfFirstNumberOccurrence returns the index of the first occurrence of the given integer in the list
+func GetIndexOfFirstNumberOccurrence(numbers *[]int, el int) int {
+	for i := range *numbers {
+		if (*numbers)[i] == el {
+			return i
+		}
+	}
+	return -1
+}
