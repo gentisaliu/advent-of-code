@@ -11,14 +11,14 @@ type Solution struct{}
 
 // PartOne answers part 1 of the day 10 puzzle
 func (d *Solution) PartOne(input *[]string) (int, error) {
-	joltages := list.ConvertStringSliceToNumberSlice(input)
-	chainedAdapters := chainAdapters(*joltages)
-	return countJoltageDifferences(chainedAdapters), nil
+	jolts := list.ConvertStringsToNumbers(input)
+	chainedAdapters := chainAdapters(*jolts)
+	return countJoltDifferences(chainedAdapters), nil
 }
 
-func chainAdapters(joltages []int) []int {
+func chainAdapters(jolts []int) []int {
 	chargeOutletJolt := []int{0}
-	joltsSorted := append(chargeOutletJolt, joltages...)
+	joltsSorted := append(chargeOutletJolt, jolts...)
 	sort.Ints(joltsSorted)
 
 	highestJolt := joltsSorted[len(joltsSorted)-1]
@@ -26,19 +26,19 @@ func chainAdapters(joltages []int) []int {
 	return append(joltsSorted, deviceAdapterJolt)
 }
 
-func countJoltageDifferences(joltages []int) int {
-	joltagesCount := len(joltages)
+func countJoltDifferences(jolts []int) int {
+	joltsCount := len(jolts)
 	differences := map[int]int{1: 0, 2: 0, 3: 0}
-	for i := 1; i < joltagesCount; i++ {
-		differences[joltages[i]-joltages[i-1]]++
+	for i := 1; i < joltsCount; i++ {
+		differences[jolts[i]-jolts[i-1]]++
 	}
 	return differences[1] * differences[3]
 }
 
 // PartTwo answers part 2 of the day 10 puzzle
 func (d *Solution) PartTwo(input *[]string) (int, error) {
-	joltages := list.ConvertStringSliceToNumberSlice(input)
-	chainedAdapters := chainAdapters(*joltages)
+	jolts := list.ConvertStringsToNumbers(input)
+	chainedAdapters := chainAdapters(*jolts)
 	return countAdapterArrangements(&chainedAdapters), nil
 }
 

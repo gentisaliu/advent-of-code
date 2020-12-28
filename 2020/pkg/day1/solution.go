@@ -13,7 +13,7 @@ type Solution struct{}
 
 // PartOne answers part 1 of the day 1 puzzle
 func (d *Solution) PartOne(input *[]string) (int, error) {
-	numbers := list.ConvertStringSliceToNumberSlice(input)
+	numbers := list.ConvertStringsToNumbers(input)
 
 	nr1, nr2, err := findTwoNumbersWithSum(numbers, targetSum)
 	return nr1 * nr2, err
@@ -33,7 +33,7 @@ func findTwoNumbersWithSum(numbers *[]int, sum int) (int, int, error) {
 
 // PartTwo answers part 2 of the day 1 puzzle
 func (d *Solution) PartTwo(input *[]string) (int, error) {
-	numbers := list.ConvertStringSliceToNumberSlice(input)
+	numbers := list.ConvertStringsToNumbers(input)
 	nr1, nr2, nr3, err := findThreeNumbersWithSum(numbers, targetSum)
 	return nr1 * nr2 * nr3, err
 }

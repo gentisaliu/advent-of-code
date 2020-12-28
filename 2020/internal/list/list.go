@@ -4,8 +4,8 @@ import (
 	"strconv"
 )
 
-// ConvertStringSliceToNumberSlice converts a slice of strings to a slice of ints
-func ConvertStringSliceToNumberSlice(aSlice *[]string) *[]int {
+// ConvertStringsToNumbers converts a slice of strings to a slice of ints
+func ConvertStringsToNumbers(aSlice *[]string) *[]int {
 	var numbers []int
 	for _, v := range *aSlice {
 		number, err := strconv.Atoi(v)
@@ -30,8 +30,8 @@ func GetMinMax(numbers *[]int) (int, int) {
 	return min, max
 }
 
-// GetIndexOfFirstNumberOccurrence returns the index of the first occurrence of the given integer in the list
-func GetIndexOfFirstNumberOccurrence(numbers *[]int, el int) int {
+// GetIndexOfFirstOccurrence returns the index of the first occurrence of the given integer in the list
+func GetIndexOfFirstOccurrence(numbers *[]int, el int) int {
 	for i := range *numbers {
 		if (*numbers)[i] == el {
 			return i
