@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+
+	"github.com/gentisaliu/advent-of-code/2020/internal/list"
 )
 
 const (
@@ -35,7 +37,7 @@ func (d *Solution) PartTwo(input *[]string) (int, error) {
 	exitCode, err := cpu.executeProgram()
 	if exitCode == exitCodeInfiniteLoop && err == nil {
 		for lineNr := range *input {
-			program, programChanged := changeJmpNopInstructionInProgramLine(input, lineNr)
+			program, programChanged := changeJmpNopInstruction(input, lineNr)
 			if !programChanged {
 				continue
 			}
@@ -49,28 +51,21 @@ func (d *Solution) PartTwo(input *[]string) (int, error) {
 	return cpu.accumulator, err
 }
 
-func changeJmpNopInstructionInProgramLine(program *[]string, lineNr int) (*[]string, bool) {
+func changeJmpNopInstruction(program *[]string, lineNr int) (*[]string, bool) {
 	instruction := (*program)[lineNr]
-	instructionChanged := instruction
+	instructionNew := instruction
 
 	if strings.HasPrefix(instruction, "jmp") {
-		instructionChanged = strings.ReplaceAll(instruction, "jmp", "nop")
+		instructionNew = strings.ReplaceAll(instruction, "jmp", "nop")
 	} else if strings.HasPrefix(instruction, "nop") {
-		instructionChanged = strings.ReplaceAll(instruction, "nop", "jmp")
+		instructionNew = strings.ReplaceAll(instruction, "nop", "jmp")
 	}
 
-	if instructionChanged != instruction {
-		newProgram := replaceSliceElement(program, lineNr, instructionChanged)
+	if instructionNew != instruction {
+		newProgram := list.ReplaceElement(program, lineNr, instructionNew)
 		return newProgram, true
 	}
 	return program, false
-}
-
-func replaceSliceElement(slice *[]string, index int, newElem string) *[]string {
-	newSlice := make([]string, len(*slice))
-	copy(newSlice, *slice)
-	newSlice[index] = newElem
-	return &newSlice
 }
 
 type opCode int
@@ -107,8 +102,8 @@ func (c *processor) fetchInstruction() (string, int) {
 func (c *processor) decodeInstruction(instructionTxt string, ordinal int) (instruction, error) {
 	var err error
 	decodedInstruction := instruction{}
-	decodedInstruction.opCode, err = c.decodeOpCode(instructionTxt)
-	decodedInstruction.argument, err = c.decodeArgument(instructionTxt)
+	decodedInstruction.opCode, err = c.decodeInstructionOpCode(instructionTxt)
+	decodedInstruction.argument, err = c.decodeInstructionArgument(instructionTxt)
 	decodedInstruction.ordinal = ordinal
 	if err != nil {
 		err = fmt.Errorf("error decoding instruction '%v': %v", instructionTxt, err)
@@ -116,7 +111,7 @@ func (c *processor) decodeInstruction(instructionTxt string, ordinal int) (instr
 	return decodedInstruction, err
 }
 
-func (c *processor) decodeOpCode(instructionTxt string) (opCode, error) {
+func (c *processor) decodeInstructionOpCode(instructionTxt string) (opCode, error) {
 	opcode := instructionTxt[0:3]
 	switch opcode {
 	case "acc":
@@ -130,7 +125,7 @@ func (c *processor) decodeOpCode(instructionTxt string) (opCode, error) {
 	}
 }
 
-func (c *processor) decodeArgument(instructionTxt string) (int, error) {
+func (c *processor) decodeInstructionArgument(instructionTxt string) (int, error) {
 	argument, _ := strconv.Atoi(instructionTxt[5:])
 	sign := instructionTxt[4:5]
 	switch sign {
@@ -165,7 +160,7 @@ func (c *processor) enableInfiniteLoopDetection() {
 }
 
 func (c *processor) executeProgram() (int, error) {
-	for !c.endOfInstructionSequenceReached() {
+	for !c.endOfInstructionSequence() {
 		if c.detectInfiniteLoops && c.instructionPreviouslyExecuted() {
 			return exitCodeInfiniteLoop, nil
 		}
@@ -182,6 +177,6 @@ func (c *processor) instructionPreviouslyExecuted() bool {
 	return found
 }
 
-func (c *processor) endOfInstructionSequenceReached() bool {
+func (c *processor) endOfInstructionSequence() bool {
 	return len(*c.instructionSequence) <= c.programCounter
 }

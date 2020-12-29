@@ -39,3 +39,11 @@ func GetIndexOfFirstOccurrence(numbers *[]int, el int) int {
 	}
 	return -1
 }
+
+// ReplaceElement replaces the element in the given index of the slice with the new element value
+func ReplaceElement(slice *[]string, index int, newElem string) *[]string {
+	newSlice := make([]string, len(*slice))
+	copy(newSlice, *slice)
+	newSlice[index] = newElem
+	return &newSlice
+}
