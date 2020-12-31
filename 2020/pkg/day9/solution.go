@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/gentisaliu/advent-of-code/2020/internal/list"
+	"github.com/gentisaliu/advent-of-code/2020/internal/util"
 )
 
 var (
@@ -16,14 +16,14 @@ type Solution struct{}
 
 // PartOne answers part 1 of the day 9 puzzle
 func (d *Solution) PartOne(input *[]string) (int, error) {
-	numbers := list.ConvertStringsToNumbers(input)
+	numbers := util.ConvertStringsToNumbers(input)
 	encodedData := &xmasEncodedData{numbers}
 	return encodedData.findFirstCorruptedNumber()
 }
 
 // PartTwo answers part 2 of the day 9 puzzle
 func (d *Solution) PartTwo(input *[]string) (int, error) {
-	numbers := list.ConvertStringsToNumbers(input)
+	numbers := util.ConvertStringsToNumbers(input)
 	encodedData := &xmasEncodedData{numbers}
 	return encodedData.findEncryptionWeakness()
 }
@@ -60,12 +60,12 @@ func (d *xmasEncodedData) findEncryptionWeakness() (int, error) {
 	if err != nil {
 		return 0, err
 	}
-	corruptedNumberIndex := list.GetIndexOfFirstOccurrence(d.numbers, corruptedNumber)
+	corruptedNumberIndex := util.GetIndexOfFirstOccurrence(d.numbers, corruptedNumber)
 	sliceSet, err := d.findContiguousSetWithSum(corruptedNumber, 0, corruptedNumberIndex)
 	if err != nil {
 		return 0, err
 	}
-	min, max := list.GetMinMax(&sliceSet)
+	min, max := util.GetMinMax(&sliceSet)
 	return min + max, nil
 }
 
@@ -94,7 +94,6 @@ func (p *preamble) initialize(numbers *[]int) {
 	p.numbersMap = make(map[int]int)
 	p.startIndex = 0
 	p.endIndex = preambleLength
-
 	for _, number := range (*numbers)[p.startIndex:p.endIndex] {
 		p.add(number)
 	}

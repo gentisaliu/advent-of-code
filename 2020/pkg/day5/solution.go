@@ -2,8 +2,9 @@ package day5
 
 import (
 	"errors"
-	"strconv"
 	"strings"
+
+	"github.com/gentisaliu/advent-of-code/2020/internal/util"
 )
 
 // Solution implements the day 5 puzzle
@@ -44,18 +45,13 @@ func decodeBoardingPass(boardingPass string) seat {
 }
 
 func decodePartition(partition string, lowerHalfLetter string, upperHalfLetter string) int {
-	binary := convertPartitionToBinary(partition, lowerHalfLetter, upperHalfLetter)
-	return convertBinaryToInt(binary)
+	binary := convertLettersToBinary(partition, lowerHalfLetter, upperHalfLetter)
+	return int(util.ConvertBinaryToInt(binary))
 }
 
-func convertPartitionToBinary(partition string, lowerHalfLetter string, upperHalfLetter string) string {
+func convertLettersToBinary(partition string, lowerHalfLetter string, upperHalfLetter string) string {
 	binary := strings.ReplaceAll(strings.ToUpper(partition), string(lowerHalfLetter), "0")
 	return strings.ReplaceAll(binary, string(upperHalfLetter), "1")
-}
-
-func convertBinaryToInt(binaryString string) int {
-	n, _ := strconv.ParseInt(binaryString, 2, 8)
-	return int(n)
 }
 
 // PartTwo answers part 2 of the day 5 puzzle

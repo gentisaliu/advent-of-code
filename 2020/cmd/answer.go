@@ -4,13 +4,14 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/gentisaliu/advent-of-code/2020/internal/fs"
+	"github.com/gentisaliu/advent-of-code/2020/internal/util"
 	"github.com/gentisaliu/advent-of-code/2020/pkg/day"
 	"github.com/gentisaliu/advent-of-code/2020/pkg/day1"
 	"github.com/gentisaliu/advent-of-code/2020/pkg/day10"
 	"github.com/gentisaliu/advent-of-code/2020/pkg/day11"
 	"github.com/gentisaliu/advent-of-code/2020/pkg/day12"
 	"github.com/gentisaliu/advent-of-code/2020/pkg/day13"
+	"github.com/gentisaliu/advent-of-code/2020/pkg/day14"
 	"github.com/gentisaliu/advent-of-code/2020/pkg/day2"
 	"github.com/gentisaliu/advent-of-code/2020/pkg/day3"
 	"github.com/gentisaliu/advent-of-code/2020/pkg/day4"
@@ -36,6 +37,7 @@ var solutions = map[int]day.Solution{
 	11: &day11.Solution{},
 	12: &day12.Solution{},
 	13: &day13.Solution{},
+	14: &day14.Solution{},
 }
 
 // AnswerCmd
@@ -62,7 +64,7 @@ func AnswerCmd() *cobra.Command {
 func answer(day int, inputFilePath string) error {
 	fmt.Printf("Day %v puzzle, input file %v\n", day, inputFilePath)
 
-	input, err := fs.ReadAllLines(inputFilePath)
+	input, err := util.ReadAllLines(inputFilePath)
 	if err != nil {
 		return fmt.Errorf("error reading input file: %v", err)
 	}

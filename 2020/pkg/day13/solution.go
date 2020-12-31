@@ -5,23 +5,23 @@ import (
 	"strings"
 )
 
-// Solution implements the day 13 solution
+// Solution implements day 13 solution
 type Solution struct{}
 
 // PartOne answers part 1 of the day 13 puzzle
 func (s *Solution) PartOne(input *[]string) (int, error) {
-	earliestDepart, busIDs := parsePartOneInput(input)
+	earliestDepart, busIDs := parseInputPartOne(input)
 	busID, waitTime := findEarliestBus(earliestDepart, busIDs)
 	return busID * waitTime, nil
 }
 
-func parsePartOneInput(input *[]string) (int, []int) {
+func parseInputPartOne(input *[]string) (int, []int) {
 	earliestDepart, _ := strconv.Atoi((*input)[0])
-	busIDs := parsePartOneBusIDs((*input)[1])
+	busIDs := parseBusIDsPartOne((*input)[1])
 	return earliestDepart, busIDs
 }
 
-func parsePartOneBusIDs(busIDsRow string) []int {
+func parseBusIDsPartOne(busIDsRow string) []int {
 	busIDs := make([]int, 0)
 	busIDsTokens := strings.Split(busIDsRow, ",")
 	for _, busIDRaw := range busIDsTokens {
@@ -53,20 +53,20 @@ func calcWaitTime(earliestDepart, busID int) int {
 
 // PartTwo answers part 2 of the day 13 puzzle
 func (s *Solution) PartTwo(input *[]string) (int, error) {
-	busIDs := parsePartTwoInput(input)
+	busIDs := parseInputPartTwo(input)
 	timestamp := findConsecutiveBusDeparts(busIDs)
 	return timestamp, nil
 }
 
-func parsePartTwoInput(input *[]string) []int {
+func parseInputPartTwo(input *[]string) []int {
 	busIDsRow := (*input)[0]
 	if len(*input) == 2 {
 		busIDsRow = (*input)[1]
 	}
-	return parsePartTwoBusIDs(busIDsRow)
+	return parseBusIDsPartTwo(busIDsRow)
 }
 
-func parsePartTwoBusIDs(busIDsRow string) []int {
+func parseBusIDsPartTwo(busIDsRow string) []int {
 	busIDs := make([]int, 0)
 	busIDsTokens := strings.Split(busIDsRow, ",")
 	for _, busIDToken := range busIDsTokens {

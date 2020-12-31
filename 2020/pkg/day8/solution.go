@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/gentisaliu/advent-of-code/2020/internal/list"
+	"github.com/gentisaliu/advent-of-code/2020/internal/util"
 )
 
 const (
@@ -62,7 +62,7 @@ func changeJmpNopInstruction(program *[]string, lineNr int) (*[]string, bool) {
 	}
 
 	if instructionNew != instruction {
-		newProgram := list.ReplaceElement(program, lineNr, instructionNew)
+		newProgram := util.ReplaceElement(program, lineNr, instructionNew)
 		return newProgram, true
 	}
 	return program, false
